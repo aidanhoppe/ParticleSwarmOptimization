@@ -44,17 +44,16 @@ def particleSwarm(population, gbest):
         #eval = matyas(par)
         #Update Personal Best if applicable
         if eval < par.pbest[0]:
-            par.pbest = [eval, [par.pos[0], par.pos[1]]]
+            par.pbest = [eval, par.pos]
         #Update Global Best if applicable
         if eval < gbest[0]:
-            gbest = [eval, [par.pos[0], par.pos[1]]]
+            gbest = [eval, par.pos]
         #UPDATE VELOCITY
         vnewx = INERTIA * par.velocity[0] + ACCELERATION*(random.random()*(par.pbest[1][0]-par.pos[0])+random.random()*(gbest[1][0]-par.pos[0]))
         vnewy = INERTIA * par.velocity[1] + ACCELERATION*(random.random()*(par.pbest[1][1]-par.pos[1])+random.random()*(gbest[1][1]-par.pos[1]))
         par.velocity = [vnewx, vnewy]
         #UPDATE POSITION
-        par.pos[0] = par.pos[0]+vnewx
-        par.pos[1] = par.pos[1]+vnewy
+        par.pos = [par.pos[0]+vnewx, par.pos[1]+vnewy]
     return population, gbest
 
 times = []
@@ -68,8 +67,7 @@ for i in range(500):
         #newp.pbest[0] = booth(newp)
         newp.pbest[0] = levi13(newp)
         #newp.pbest[0] = matyas(newp)
-        newp.pbest[1][0] = newp.pos[0]
-        newp.pbest[1][1] = newp.pos[1]
+        newp.pbest[1] = newp.pos
         population.append(newp)
 
     #Iterate Particle Swarm Until Acceptance Threshold is Hit
